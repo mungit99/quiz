@@ -1,32 +1,20 @@
 
 import './App.css'
-import { useState } from 'react'
+import { memo } from 'react'
 import First from './components/First'
 import Second from './components/Second'
 import './style.css'
+import { useAppSelector } from './redux/store'
 
 function App() {
-  const [slide, setSlide] = useState("first")
-
-  const handleClick1 = () => {
-    setSlide("second")
-  }
-
-  const handleClick2 = () => {
-    setSlide("third")
-  }
-
-  const handleClick3 = () => {
-    setSlide("first")
-  }
-
+  const slide = useAppSelector(state => state.slide.slide);
 
   return(
     slide === "first" ? 
-      <First onClick={handleClick1}/> :
-      <Second slide={slide} onClick2={handleClick2} onClick3={handleClick3} />
+      <First /> :
+      <Second />
   )
 
 }
 
-export default App
+export default memo(App)

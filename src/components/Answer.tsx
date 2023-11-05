@@ -1,29 +1,32 @@
+import {memo, FC} from 'react'
+import { useAppSelector } from '../redux/store';
 
-interface Props{
+interface IProps{
     answer: string;
     selected: boolean;
-    handleAns: (s: string) => void;
-    slide: string;
+    handleAns: (str: string) => void;
     correct: boolean;
 }
-const Answer = ({answer, selected, handleAns, slide, correct}: Props) => {
-    let s = "non-selected";
+const Answer:FC<IProps> = ({answer, selected, handleAns, correct}) => {
+    const slide = useAppSelector(state => state.slide.slide);
+    let ans = "non-selected";
     if(slide === "third"){
-        if(correct) s = "right"
-        else if(selected) s = "wrong"
+        if(correct) ans = "right"
+        else if(selected) ans = "wrong"
     }else{
-        s = selected ? "selected" : "non-selected"
+        ans = selected ? "selected" : "non-selected"
     }
     return(
         <>
             <button 
-            className={s}
+            className={ans}
             disabled={slide === "third"}
             onClick={() => handleAns(answer)}>
                 {<div dangerouslySetInnerHTML={{ __html: answer }} />}
+                
             </button>
         </>
     )
 }
 
-export default Answer
+export default memo(Answer)
